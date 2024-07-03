@@ -5,8 +5,8 @@ case "$OSTYPE" in
 esac
 
 cd ../yatube_api/
-$python manage.py migrate
-$python manage.py flush --no-input
+$python yatube_api/manage.py migrate
+$python yatube_api/manage.py flush --no-input
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); \
      u, _ = User.objects.get_or_create(username='root'); u.is_superuser = True; u.is_staff = True; u.email = 'root@admin.ru'; u.set_password('5eCretPaSsw0rD'); u.save(); \
      u, _ = User.objects.get_or_create(username='regular_user'); u.is_superuser = False; u.is_staff = False; u.email = 'user@not-admin.ru'; u.set_password('iWannaBeAdmin'); u.save(); \
