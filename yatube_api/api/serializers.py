@@ -64,13 +64,10 @@ class FollowSerializer(serializers.ModelSerializer):
         read_only_fields = ("user",)
 
     def validate_following(self, value):
+        curr_user = self.context["request"].user
+        following_user = value
         if self.context["request"].user == value:
             raise serializers.ValidationError("Нельзя подписаться на себя!")
-        return value
-
-    def validate(self, data):
-        curr_user = self.context["request"].user
-        following_user = data["following"]
         if Follow.objects.filter(
             user=curr_user,
             following=following_user,
@@ -78,4 +75,4 @@ class FollowSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 f"Вы уже подписаны на пользователя {following_user}!"
             )
-        return data
+        return value
